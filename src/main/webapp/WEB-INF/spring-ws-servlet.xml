@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- PERSISTENCE CONFIGURATION -->
+
+	<!-- General: SERVICE CONFIGURATION -->
+	<bean id="PayloadEndpointMapping" class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
+		<property name="mappings">
+			<props>
+				<prop key="{http://ianzepp.com/logging}InsertEventRequest">BasicEndpoint</prop>
+				<prop key="{http://ianzepp.com/logging}PurgeEventByLevelRequest">BasicEndpoint</prop>
+				<prop key="{http://ianzepp.com/logging}PurgeEventByTimestampRequest">BasicEndpoint</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="ConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://${activemq.host}:${activemq.port}" />
+	</bean>
+
+	<!-- Endpoints & Services -->
+
+	<bean id="BasicEndpoint" class="com.ianzepp.logging.jms.service.BasicEndpoint">
+		<property name="service" ref="BasicService" />
+	</bean>
+
+	<bean id="BasicService" class="com.ianzepp.logging.jms.service.BasicService">
+		<property name="dao" ref="BasicDao" />
+	</bean>
+
+	<!-- Persistence & DAO -->
+	<bean id="BasicDataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="jdbc:mysql://${jdbc.hostname}:${jdbc.port}/${jdbc.database}?zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="BasicDao" class="com.ianzepp.logging.jms.service.BasicDao">
+		<property name="dataSource" ref="BasicDataSource" />
+		<property name="namedQueries">
+			<props>
+				<prop key="CreateEventTable">com.ianzepp.logging.jms.service.CreateEventTable.sql</prop>
+				<prop key="CreateExceptionTable">com.ianzepp.logging.jms.service.CreateEventExceptionTable.sql</prop>
+				<prop key="CreateLocationTable">com.ianzepp.logging.jms.service.CreateEventLocationTable.sql</prop>
+				<prop key="CreateUserRequestTable">com.ianzepp.logging.jms.service.CreateEventUserRequestTable.sql</prop>
+				<prop key="InsertEvent">com.ianzepp.logging.jms.service.InsertEvent.sql</prop>
+				<prop key="InsertEventException">com.ianzepp.logging.jms.service.InsertEventException.sql</prop>
+				<prop key="InsertEventLocation">com.ianzepp.logging.jms.service.InsertEventLocation.sql</prop>
+				<prop key="InsertEventUserRequest">com.ianzepp.logging.jms.service.InsertEventUserRequest.sql</prop>
+				<prop key="PurgeEventByLevel">com.ianzepp.logging.jms.service.PurgeEventByLevel.sql</prop>
+				<prop key="PurgeEventByTimestamp">com.ianzepp.logging.jms.service.PurgeEventByTimestamp.sql</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- ActiveMQ paths -->
+
+	<bean id="BasicListenerDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="com.ianzepp.logging.events" />
+	</bean>
+
+	<!-- ActiveMQ Containers & Listeners -->
+
+	<bean id="BasicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="ConnectionFactory" />
+		<property name="destination" ref="BasicListenerDestination" />
+		<property name="messageListener" ref="BasicListenerAdapter" />
+	</bean>
+
+	<bean id="BasicListenerAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="BasicEndpoint" />
+	</bean>
+
+	<!-- WSDL Paths -->
+
+	<bean id="BasicWsdl" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+		<property name="schema" ref="BasicWsdlSchema" />
+		<property name="portTypeName" value="logging" />
+		<property name="locationUri" value="/" />
+		<property name="targetNamespace" value="http://ianzepp.com/logging" />
+	</bean>
+
+	<!-- WSDL schemas -->
+
+	<bean id="BasicWsdlSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+		<property name="xsd" value="com.ianzepp.logging.jms.service.xsd" />
+	</bean>
+
+	<!-- Import properties -->
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:misc.properties" />
+	</bean>
+
+</beans>
