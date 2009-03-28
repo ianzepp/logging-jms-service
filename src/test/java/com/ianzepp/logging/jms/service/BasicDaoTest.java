@@ -58,7 +58,7 @@ public class BasicDaoTest
 	private static final String DB_USERNAME = "logging_tests";
 	private static final String DB_PASSWORD = "logging_tests";
 	private static DataSource dataSource;
-	private static HashMap<String, String> namedQueries;
+	private static HashMap <String, String> namedQueries;
 
 	/**
 	 * TODO Method description for <code>setUpBeforeClass()</code>
@@ -66,22 +66,22 @@ public class BasicDaoTest
 	 * @throws SQLException
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws SQLException
+	public static void setUpBeforeClass () throws SQLException
 	{
 		// Create the dao mapping
-		namedQueries = new HashMap<String, String>();
-		namedQueries.put( "FindEventById", "src/main/resources/com.ianzepp.logging.jms.service.FindEventById.sql" );
-		namedQueries.put( "InsertEvent", "src/main/resources/com.ianzepp.logging.jms.service.InsertEvent.sql" );
-		namedQueries.put( "InsertException", "src/main/resources/com.ianzepp.logging.jms.service.InsertEventException.sql" );
-		namedQueries.put( "InsertLocation", "src/main/resources/com.ianzepp.logging.jms.service.InsertEventLocation.sql" );
-		namedQueries.put( "InsertUserRequest", "src/main/resources/com.ianzepp.logging.jms.service.InsertEventUserRequest.sql" );
+		namedQueries = new HashMap <String, String> ();
+		namedQueries.put ("FindEventById", "src/main/resources/com.ianzepp.logging.jms.service.FindEventById.sql");
+		namedQueries.put ("InsertEvent", "src/main/resources/com.ianzepp.logging.jms.service.InsertEvent.sql");
+		namedQueries.put ("InsertException", "src/main/resources/com.ianzepp.logging.jms.service.InsertEventException.sql");
+		namedQueries.put ("InsertLocation", "src/main/resources/com.ianzepp.logging.jms.service.InsertEventLocation.sql");
+		namedQueries.put ("InsertUserRequest", "src/main/resources/com.ianzepp.logging.jms.service.InsertEventUserRequest.sql");
 
 		// Create and save the datasource
-		BasicDataSource basicDataSource = new BasicDataSource();
-		basicDataSource.setDriverClassName( DB_DRIVER );
-		basicDataSource.setUrl( DB_URI );
-		basicDataSource.setUsername( DB_USERNAME );
-		basicDataSource.setPassword( DB_PASSWORD );
+		BasicDataSource basicDataSource = new BasicDataSource ();
+		basicDataSource.setDriverClassName (DB_DRIVER);
+		basicDataSource.setUrl (DB_URI);
+		basicDataSource.setUsername (DB_USERNAME);
+		basicDataSource.setPassword (DB_PASSWORD);
 		dataSource = basicDataSource;
 	}
 
@@ -91,23 +91,23 @@ public class BasicDaoTest
 	 * @throws Exception
 	 */
 	@Before
-	public void setUp() throws Exception
+	public void setUp () throws Exception
 	{
 		// Create the tables
-		Statement statement = getConnection().createStatement();
-		statement.execute( "DROP TABLE IF EXISTS \"EventException\"" );
-		statement.execute( "DROP TABLE IF EXISTS \"EventLocation\"" );
-		statement.execute( "DROP TABLE IF EXISTS \"EventUserRequest\"" );
-		statement.execute( "DROP TABLE IF EXISTS \"Event\"" );
-		statement.execute( readFile( "src/main/resources/com.ianzepp.logging.jms.service.CreateEventTable.sql" ) );
-		statement.execute( readFile( "src/main/resources/com.ianzepp.logging.jms.service.CreateEventExceptionTable.sql" ) );
-		statement.execute( readFile( "src/main/resources/com.ianzepp.logging.jms.service.CreateEventLocationTable.sql" ) );
-		statement.execute( readFile( "src/main/resources/com.ianzepp.logging.jms.service.CreateEventUserRequestTable.sql" ) );
+		Statement statement = getConnection ().createStatement ();
+		statement.execute ("DROP TABLE IF EXISTS \"EventException\"");
+		statement.execute ("DROP TABLE IF EXISTS \"EventLocation\"");
+		statement.execute ("DROP TABLE IF EXISTS \"EventUserRequest\"");
+		statement.execute ("DROP TABLE IF EXISTS \"Event\"");
+		statement.execute (readFile ("src/main/resources/com.ianzepp.logging.jms.service.CreateEventTable.sql"));
+		statement.execute (readFile ("src/main/resources/com.ianzepp.logging.jms.service.CreateEventExceptionTable.sql"));
+		statement.execute (readFile ("src/main/resources/com.ianzepp.logging.jms.service.CreateEventLocationTable.sql"));
+		statement.execute (readFile ("src/main/resources/com.ianzepp.logging.jms.service.CreateEventUserRequestTable.sql"));
 	}
 
-	private static Connection getConnection() throws SQLException
+	private static Connection getConnection () throws SQLException
 	{
-		return dataSource.getConnection();
+		return dataSource.getConnection ();
 	}
 
 	/**
@@ -115,9 +115,9 @@ public class BasicDaoTest
 	 * 
 	 * @return
 	 */
-	public BasicDao newInstance()
+	public BasicDao newInstance ()
 	{
-		return new BasicDao();
+		return new BasicDao ();
 	}
 
 	/**
@@ -125,11 +125,11 @@ public class BasicDaoTest
 	 * 
 	 * @return
 	 */
-	public BasicDao newInitializedInstance()
+	public BasicDao newInitializedInstance ()
 	{
-		BasicDao basicDao = newInstance();
-		basicDao.setDataSource( dataSource );
-		basicDao.setNamedQueries( namedQueries );
+		BasicDao basicDao = newInstance ();
+		basicDao.setDataSource (dataSource);
+		basicDao.setNamedQueries (namedQueries);
 		return basicDao;
 	}
 
@@ -137,27 +137,27 @@ public class BasicDaoTest
 	 * TODO Method description for <code>testGetNamedQueries()</code>
 	 */
 	@Test
-	public final void testGetNamedQueries()
+	public final void testGetNamedQueries ()
 	{
-		BasicDao basicDao = newInstance();
-		basicDao.setNamedQueries( namedQueries );
-		assertNotNull( basicDao.getNamedQueries() );
+		BasicDao basicDao = newInstance ();
+		basicDao.setNamedQueries (namedQueries);
+		assertNotNull (basicDao.getNamedQueries ());
 	}
 
 	/**
 	 * TODO Method description for <code>testGetQuery()</code>
 	 */
 	@Test
-	public final void testGetQuery()
+	public final void testGetQuery ()
 	{
-		BasicDao basicDao = newInstance();
-		basicDao.setNamedQueries( namedQueries );
+		BasicDao basicDao = newInstance ();
+		basicDao.setNamedQueries (namedQueries);
 
-		for ( String queryName : namedQueries.keySet() )
+		for (String queryName : namedQueries.keySet ())
 		{
-			String filePath = namedQueries.get( queryName );
-			String fileData = readFile( filePath );
-			assertEquals( fileData, basicDao.getQuery( queryName ) );
+			String filePath = namedQueries.get (queryName);
+			String fileData = readFile (filePath);
+			assertEquals (fileData, basicDao.getQuery (queryName));
 		}
 	}
 
@@ -167,20 +167,20 @@ public class BasicDaoTest
 	 * @param eventId
 	 * @return
 	 */
-	public final HashMap<String, Object> newInitializedEventMap( UUID eventId )
+	public final HashMap <String, Object> newInitializedEventMap (UUID eventId)
 	{
-		HashMap<String, Object> hashMap = new HashMap<String, Object>();
-		hashMap.put( "CorrelationId", "correlationId" );
-		hashMap.put( "Host", "host" );
-		hashMap.put( "Id", eventId.toString() );
-		hashMap.put( "Level", "level" );
-		hashMap.put( "Logger", "logger" );
-		hashMap.put( "Message", "message" );
-		hashMap.put( "MessageId", "messageId" );
-		hashMap.put( "Project", "project" );
-		hashMap.put( "Service", "service" );
-		hashMap.put( "Thread", "thread" );
-		hashMap.put( "Timestamp", "timestamp" );
+		HashMap <String, Object> hashMap = new HashMap <String, Object> ();
+		hashMap.put ("CorrelationId", "correlationId");
+		hashMap.put ("Host", "host");
+		hashMap.put ("Id", eventId.toString ());
+		hashMap.put ("Level", "level");
+		hashMap.put ("Logger", "logger");
+		hashMap.put ("Message", "message");
+		hashMap.put ("MessageId", "messageId");
+		hashMap.put ("Project", "project");
+		hashMap.put ("Service", "service");
+		hashMap.put ("Thread", "thread");
+		hashMap.put ("Timestamp", "timestamp");
 		return hashMap;
 	}
 
@@ -190,32 +190,32 @@ public class BasicDaoTest
 	 * @throws Exception
 	 */
 	@Test
-	public final void testSaveEvent() throws Exception
+	public final void testSaveEvent () throws Exception
 	{
 		// Save the id first
-		HashMap<String, Object> paramMap = newInitializedEventMap( UUID.randomUUID() );
+		HashMap <String, Object> paramMap = newInitializedEventMap (UUID.randomUUID ());
 
 		// Run the save
-		assertTrue( newInitializedInstance().executeQuery( "InsertEvent", paramMap ) > 0 );
+		assertTrue (newInitializedInstance ().executeQuery ("InsertEvent", paramMap) > 0);
 
 		// Test the result
-		String statementSql = "SELECT * FROM \"Event\" WHERE \"Id\" = '" + paramMap.get( "Id" ) + "'";
-		Statement statement = getConnection().createStatement();
+		String statementSql = "SELECT * FROM \"Event\" WHERE \"Id\" = '" + paramMap.get ("Id") + "'";
+		Statement statement = getConnection ().createStatement ();
 
 		// Check the query
-		assertTrue( statement.execute( statementSql ) );
+		assertTrue (statement.execute (statementSql));
 
 		// Check the result set
-		ResultSet resultSet = statement.getResultSet();
+		ResultSet resultSet = statement.getResultSet ();
 
-		assertTrue( "No result set data was returned.", resultSet.first() );
+		assertTrue ("No result set data was returned.", resultSet.first ());
 
-		for ( String columnName : paramMap.keySet() )
+		for (String columnName : paramMap.keySet ())
 		{
-			assertEquals( paramMap.get( columnName ), resultSet.getString( columnName ) );
+			assertEquals (paramMap.get (columnName), resultSet.getString (columnName));
 		}
 
-		assertFalse( "Too many results were returned", resultSet.next() );
+		assertFalse ("Too many results were returned", resultSet.next ());
 	}
 
 	/**
@@ -223,9 +223,9 @@ public class BasicDaoTest
 	 */
 	@Test
 	@Ignore
-	public final void testSaveException()
+	public final void testSaveException ()
 	{
-		fail( "Not yet implemented" );
+		fail ("Not yet implemented");
 	}
 
 	/**
@@ -233,9 +233,9 @@ public class BasicDaoTest
 	 */
 	@Test
 	@Ignore
-	public final void testSaveLocation()
+	public final void testSaveLocation ()
 	{
-		fail( "Not yet implemented" );
+		fail ("Not yet implemented");
 	}
 
 	/**
@@ -243,9 +243,9 @@ public class BasicDaoTest
 	 */
 	@Test
 	@Ignore
-	public final void testSaveUserRequest()
+	public final void testSaveUserRequest ()
 	{
-		fail( "Not yet implemented" );
+		fail ("Not yet implemented");
 	}
 
 	/**
@@ -254,34 +254,34 @@ public class BasicDaoTest
 	 * @param tableName
 	 * @return
 	 */
-	private static String readFile( String filePath )
+	private static String readFile (String filePath)
 	{
-		StringBuffer fileData = new StringBuffer( 4096 );
+		StringBuffer fileData = new StringBuffer (4096);
 
 		try
 		{
-			FileReader reader = new FileReader( filePath );
-			char[] charBuffer = new char[ 2048 ];
+			FileReader reader = new FileReader (filePath);
+			char [] charBuffer = new char [2048];
 			int readSize = -1;
 
-			while ( ( readSize = reader.read( charBuffer ) ) >= 0 )
+			while ((readSize = reader.read (charBuffer)) >= 0)
 			{
-				fileData.append( charBuffer, 0, readSize );
+				fileData.append (charBuffer, 0, readSize);
 			}
 
-			reader.close();
+			reader.close ();
 		}
-		catch ( FileNotFoundException e )
+		catch (FileNotFoundException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
-		catch ( IOException e )
+		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
 
-		return fileData.toString();
+		return fileData.toString ();
 	}
 }

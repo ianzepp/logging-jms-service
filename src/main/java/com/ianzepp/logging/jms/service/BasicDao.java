@@ -45,16 +45,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 public class BasicDao
 {
 
-	private final Logger LOG = Logger.getLogger( getClass().getName() );
+	private final Logger LOG = Logger.getLogger (getClass ().getName ());
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	private final Map<String, String> namedQueries = new HashMap<String, String>();
+	private final Map <String, String> namedQueries = new HashMap <String, String> ();
 
 	/**
 	 * TODO Method description for <code>getJdbcTemplate()</code>
 	 * 
 	 * @return
 	 */
-	public NamedParameterJdbcTemplate getJdbcTemplate()
+	public NamedParameterJdbcTemplate getJdbcTemplate ()
 	{
 		return jdbcTemplate;
 	}
@@ -64,7 +64,7 @@ public class BasicDao
 	 * 
 	 * @return
 	 */
-	public Map<String, String> getNamedQueries()
+	public Map <String, String> getNamedQueries ()
 	{
 		return namedQueries;
 	}
@@ -75,9 +75,9 @@ public class BasicDao
 	 * @param queryName
 	 * @return
 	 */
-	public String getQuery( final String queryName )
+	public String getQuery (final String queryName)
 	{
-		return getNamedQueries().get( queryName );
+		return getNamedQueries ().get (queryName);
 	}
 
 	/**
@@ -86,35 +86,35 @@ public class BasicDao
 	 * @param filePath
 	 * @return
 	 */
-	public String readFromFile( String filePath )
+	public String readFromFile (String filePath)
 	{
-		StringBuffer fileData = new StringBuffer( 4096 );
+		StringBuffer fileData = new StringBuffer (4096);
 
 		try
 		{
-			FileReader reader = new FileReader( filePath );
-			char[] charBuffer = new char[ 2048 ];
+			FileReader reader = new FileReader (filePath);
+			char [] charBuffer = new char [2048];
 			int readSize = -1;
 
-			while ( ( readSize = reader.read( charBuffer ) ) >= 0 )
+			while ((readSize = reader.read (charBuffer)) >= 0)
 			{
-				fileData.append( charBuffer, 0, readSize );
+				fileData.append (charBuffer, 0, readSize);
 			}
 
-			reader.close();
+			reader.close ();
 		}
-		catch ( FileNotFoundException e )
+		catch (FileNotFoundException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
-		catch ( IOException e )
+		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
 
-		return fileData.toString();
+		return fileData.toString ();
 	}
 
 	/**
@@ -124,13 +124,13 @@ public class BasicDao
 	 * @param paramMap
 	 * @return
 	 */
-	public int executeQuery( final String queryName, final Map<String, Object> paramMap )
+	public int executeQuery (final String queryName, final Map <String, Object> paramMap)
 	{
-		LOG.fine( queryName + "(" + paramMap + ")" );
+		LOG.fine (queryName + "(" + paramMap + ")");
 
-		if ( paramMap != null && paramMap.size() > 0 )
+		if (paramMap != null && paramMap.size () > 0)
 		{
-			return getJdbcTemplate().update( getQuery( queryName ), paramMap );
+			return getJdbcTemplate ().update (getQuery (queryName), paramMap);
 		}
 		else
 		{
@@ -144,9 +144,9 @@ public class BasicDao
 	 * 
 	 * @param dataSource
 	 */
-	public void setDataSource( final DataSource dataSource )
+	public void setDataSource (final DataSource dataSource)
 	{
-		setJdbcTemplate( new NamedParameterJdbcTemplate( dataSource ) );
+		setJdbcTemplate (new NamedParameterJdbcTemplate (dataSource));
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class BasicDao
 	 * 
 	 * @param jdbcTemplate
 	 */
-	public void setJdbcTemplate( final NamedParameterJdbcTemplate jdbcTemplate )
+	public void setJdbcTemplate (final NamedParameterJdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -164,20 +164,20 @@ public class BasicDao
 	 * 
 	 * @param namedQueries
 	 */
-	public void setNamedQueries( final Map<String, String> namedQueries )
+	public void setNamedQueries (final Map <String, String> namedQueries)
 	{
-		this.namedQueries.clear();
+		this.namedQueries.clear ();
 
-		LOG.fine( "setNamedQueries(): Adding '" + namedQueries.size() + "' named query items..." );
+		LOG.fine ("setNamedQueries(): Adding '" + namedQueries.size () + "' named query items...");
 
-		for ( String queryName : namedQueries.keySet() )
+		for (String queryName : namedQueries.keySet ())
 		{
-			String filePath = namedQueries.get( queryName );
-			String fileData = readFromFile( filePath );
-			this.namedQueries.put( queryName, fileData );
+			String filePath = namedQueries.get (queryName);
+			String fileData = readFromFile (filePath);
+			this.namedQueries.put (queryName, fileData);
 
-			LOG.fine( "setNamedQueries(): '" + queryName + "' => '" + filePath + "'" );
-			LOG.fine( fileData );
+			LOG.fine ("setNamedQueries(): '" + queryName + "' => '" + filePath + "'");
+			LOG.fine (fileData);
 		}
 	}
 

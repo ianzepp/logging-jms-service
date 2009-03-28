@@ -41,22 +41,21 @@ import org.springframework.ws.server.endpoint.AbstractJDomPayloadEndpoint;
  * 
  * @author izepp
  */
-public class BasicEndpoint
-	extends AbstractJDomPayloadEndpoint
+public class BasicEndpoint extends AbstractJDomPayloadEndpoint
 {
 
 	private BasicService service;
-	private static final XMLOutputter serviceOutputter = new XMLOutputter();
-	private static final String REQUEST_INSERT = "InsertEventRequest".toLowerCase();
-	private static final String REQUEST_PURGE_BY_TIMESTAMP = "PurgeEventByTimestampRequest".toLowerCase();
-	private static final String REQUEST_PURGE_BY_LEVEL = "PurgeEventByLevelRequest".toLowerCase();
+	private static final XMLOutputter serviceOutputter = new XMLOutputter ();
+	private static final String REQUEST_INSERT = "InsertEventRequest".toLowerCase ();
+	private static final String REQUEST_PURGE_BY_TIMESTAMP = "PurgeEventByTimestampRequest".toLowerCase ();
+	private static final String REQUEST_PURGE_BY_LEVEL = "PurgeEventByLevelRequest".toLowerCase ();
 
 	/**
 	 * TODO Method description for <code>getService()</code>
 	 * 
 	 * @return
 	 */
-	public BasicService getService()
+	public BasicService getService ()
 	{
 		return service;
 	}
@@ -67,17 +66,17 @@ public class BasicEndpoint
 	 * @param request
 	 * @return
 	 */
-	public String handleMessage( final String request )
+	public String handleMessage (final String request)
 	{
-		Element response = handleRequest( toXml( request ) );
+		Element response = handleRequest (toXml (request));
 
-		if ( response == null )
+		if (response == null)
 		{
 			return null;
 		}
 		else
 		{
-			return serviceOutputter.outputString( response );
+			return serviceOutputter.outputString (response);
 		}
 	}
 
@@ -87,23 +86,23 @@ public class BasicEndpoint
 	 * @param request
 	 * @return
 	 */
-	public Element handleRequest( final Element request )
+	public Element handleRequest (final Element request)
 	{
-		final String requestName = request.getName().toLowerCase();
+		final String requestName = request.getName ().toLowerCase ();
 
-		if ( REQUEST_INSERT.equals( requestName ) )
+		if (REQUEST_INSERT.equals (requestName))
 		{
-			return getService().insertEvent( request );
+			return getService ().insertEvent (request);
 		}
 
-		if ( REQUEST_PURGE_BY_TIMESTAMP.equals( requestName ) )
+		if (REQUEST_PURGE_BY_TIMESTAMP.equals (requestName))
 		{
-			return getService().purgeEventByTimestamp( request );
+			return getService ().purgeEventByTimestamp (request);
 		}
 
-		if ( REQUEST_PURGE_BY_LEVEL.equals( requestName ) )
+		if (REQUEST_PURGE_BY_LEVEL.equals (requestName))
 		{
-			return getService().purgeEventByLevel( request );
+			return getService ().purgeEventByLevel (request);
 		}
 
 		return null;
@@ -116,9 +115,9 @@ public class BasicEndpoint
 	 * @return
 	 */
 	@Override
-	protected Element invokeInternal( final Element request )
+	protected Element invokeInternal (final Element request)
 	{
-		return handleRequest( request );
+		return handleRequest (request);
 	}
 
 	/**
@@ -126,7 +125,7 @@ public class BasicEndpoint
 	 * 
 	 * @param service
 	 */
-	public void setService( final BasicService service )
+	public void setService (final BasicService service)
 	{
 		this.service = service;
 	}
@@ -137,26 +136,26 @@ public class BasicEndpoint
 	 * @param data
 	 * @return
 	 */
-	private Element toXml( final String data )
+	private Element toXml (final String data)
 	{
 		Document document = null;
 
 		try
 		{
-			document = new SAXBuilder().build( new StringReader( data ) );
+			document = new SAXBuilder ().build (new StringReader (data));
 		}
-		catch ( JDOMException e )
+		catch (JDOMException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
-		catch ( IOException e )
+		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
 
-		if ( document != null )
+		if (document != null)
 		{
-			return document.getRootElement();
+			return document.getRootElement ();
 		}
 		else
 		{

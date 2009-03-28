@@ -48,7 +48,7 @@ public class BasicService
 	 * 
 	 * @return
 	 */
-	public BasicDao getDao()
+	public BasicDao getDao ()
 	{
 		return dao;
 	}
@@ -59,14 +59,14 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	public Element insertEvent( final Element request )
+	public Element insertEvent (final Element request)
 	{
-		final UUID requestId = UUID.randomUUID();
+		final UUID requestId = UUID.randomUUID ();
 
-		getDao().executeQuery( "InsertEvent", newEventMap( requestId, request ) );
-		getDao().executeQuery( "InsertEventException", newEventExceptionMap( requestId, request ) );
-		getDao().executeQuery( "InsertEventLocation", newEventLocationMap( requestId, request ) );
-		getDao().executeQuery( "InsertEventUserRequest", newEventUserRequestMap( requestId, request ) );
+		getDao ().executeQuery ("InsertEvent", newEventMap (requestId, request));
+		getDao ().executeQuery ("InsertEventException", newEventExceptionMap (requestId, request));
+		getDao ().executeQuery ("InsertEventLocation", newEventLocationMap (requestId, request));
+		getDao ().executeQuery ("InsertEventUserRequest", newEventUserRequestMap (requestId, request));
 
 		return null;
 	}
@@ -78,22 +78,22 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	protected Map<String, Object> newEventExceptionMap( final UUID requestId, final Element request )
+	protected Map <String, Object> newEventExceptionMap (final UUID requestId, final Element request)
 	{
-		final Map<String, Object> map = new HashMap<String, Object>();
-		final Namespace ns = request.getNamespace();
-		final Element requestNode = request.getChild( "exception", ns );
+		final Map <String, Object> map = new HashMap <String, Object> ();
+		final Namespace ns = request.getNamespace ();
+		final Element requestNode = request.getChild ("exception", ns);
 
-		if ( requestNode == null )
+		if (requestNode == null)
 		{
 			return map;
 		}
 
-		map.put( "Detail", requestNode.getChildText( "detail", ns ) );
-		map.put( "EventId", requestId.toString() );
-		map.put( "ExceptionName", requestNode.getChildText( "exceptionName", ns ) );
-		map.put( "Id", UUID.randomUUID().toString() );
-		map.put( "Message", requestNode.getChildText( "message", ns ) );
+		map.put ("Detail", requestNode.getChildText ("detail", ns));
+		map.put ("EventId", requestId.toString ());
+		map.put ("ExceptionName", requestNode.getChildText ("exceptionName", ns));
+		map.put ("Id", UUID.randomUUID ().toString ());
+		map.put ("Message", requestNode.getChildText ("message", ns));
 
 		return map;
 	}
@@ -105,23 +105,23 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	protected Map<String, Object> newEventLocationMap( final UUID requestId, final Element request )
+	protected Map <String, Object> newEventLocationMap (final UUID requestId, final Element request)
 	{
-		final Map<String, Object> map = new HashMap<String, Object>();
-		final Namespace ns = request.getNamespace();
-		final Element requestNode = request.getChild( "location", ns );
+		final Map <String, Object> map = new HashMap <String, Object> ();
+		final Namespace ns = request.getNamespace ();
+		final Element requestNode = request.getChild ("location", ns);
 
-		if ( requestNode == null )
+		if (requestNode == null)
 		{
 			return map;
 		}
 
-		map.put( "ClassName", requestNode.getChildText( "className", ns ) );
-		map.put( "EventId", requestId.toString() );
-		map.put( "FileName", requestNode.getChildText( "fileName", ns ) );
-		map.put( "Id", UUID.randomUUID().toString() );
-		map.put( "LineNumber", requestNode.getChildText( "lineNumber", ns ) );
-		map.put( "MethodName", requestNode.getChildText( "methodName", ns ) );
+		map.put ("ClassName", requestNode.getChildText ("className", ns));
+		map.put ("EventId", requestId.toString ());
+		map.put ("FileName", requestNode.getChildText ("fileName", ns));
+		map.put ("Id", UUID.randomUUID ().toString ());
+		map.put ("LineNumber", requestNode.getChildText ("lineNumber", ns));
+		map.put ("MethodName", requestNode.getChildText ("methodName", ns));
 
 		return map;
 	}
@@ -133,22 +133,22 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	protected Map<String, Object> newEventMap( final UUID requestId, final Element request )
+	protected Map <String, Object> newEventMap (final UUID requestId, final Element request)
 	{
-		final Map<String, Object> map = new HashMap<String, Object>();
-		final Namespace ns = request.getNamespace();
+		final Map <String, Object> map = new HashMap <String, Object> ();
+		final Namespace ns = request.getNamespace ();
 
-		map.put( "CorrelationId", request.getChildText( "correlationId", ns ) );
-		map.put( "Host", request.getChildText( "host", ns ) );
-		map.put( "Id", requestId.toString() );
-		map.put( "Level", request.getChildText( "level", ns ) );
-		map.put( "Logger", request.getChildText( "logger", ns ) );
-		map.put( "Message", request.getChildText( "message", ns ) );
-		map.put( "MessageId", request.getChildText( "messageId", ns ) );
-		map.put( "Project", request.getChildText( "project", ns ) );
-		map.put( "Service", request.getChildText( "service", ns ) );
-		map.put( "Thread", request.getChildText( "thread", ns ) );
-		map.put( "Timestamp", request.getChildText( "timestamp", ns ) );
+		map.put ("CorrelationId", request.getChildText ("correlationId", ns));
+		map.put ("Host", request.getChildText ("host", ns));
+		map.put ("Id", requestId.toString ());
+		map.put ("Level", request.getChildText ("level", ns));
+		map.put ("Logger", request.getChildText ("logger", ns));
+		map.put ("Message", request.getChildText ("message", ns));
+		map.put ("MessageId", request.getChildText ("messageId", ns));
+		map.put ("Project", request.getChildText ("project", ns));
+		map.put ("Service", request.getChildText ("service", ns));
+		map.put ("Thread", request.getChildText ("thread", ns));
+		map.put ("Timestamp", request.getChildText ("timestamp", ns));
 
 		return map;
 	}
@@ -160,24 +160,24 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	protected Map<String, Object> newEventUserRequestMap( final UUID requestId, final Element request )
+	protected Map <String, Object> newEventUserRequestMap (final UUID requestId, final Element request)
 	{
-		final Map<String, Object> map = new HashMap<String, Object>();
-		final Namespace ns = request.getNamespace();
-		final Element requestNode = request.getChild( "location", ns );
+		final Map <String, Object> map = new HashMap <String, Object> ();
+		final Namespace ns = request.getNamespace ();
+		final Element requestNode = request.getChild ("location", ns);
 
-		if ( requestNode == null )
+		if (requestNode == null)
 		{
 			return map;
 		}
 
-		map.put( "EnvironmentVars", requestNode.getChildText( "environmentVars", ns ) );
-		map.put( "EventId", requestId.toString() );
-		map.put( "Id", UUID.randomUUID().toString() );
-		map.put( "RequestData", requestNode.getChildText( "requestData", ns ) );
-		map.put( "RequestUri", requestNode.getChildText( "requestUri", ns ) );
-		map.put( "SessionData", requestNode.getChildText( "sessionData", ns ) );
-		map.put( "SessionId", requestNode.getChildText( "sessionId", ns ) );
+		map.put ("EnvironmentVars", requestNode.getChildText ("environmentVars", ns));
+		map.put ("EventId", requestId.toString ());
+		map.put ("Id", UUID.randomUUID ().toString ());
+		map.put ("RequestData", requestNode.getChildText ("requestData", ns));
+		map.put ("RequestUri", requestNode.getChildText ("requestUri", ns));
+		map.put ("SessionData", requestNode.getChildText ("sessionData", ns));
+		map.put ("SessionId", requestNode.getChildText ("sessionId", ns));
 
 		return map;
 	}
@@ -188,15 +188,15 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	public Element purgeEventByLevel( final Element request )
+	public Element purgeEventByLevel (final Element request)
 	{
-		final Map<String, Object> map = new HashMap<String, Object>();
+		final Map <String, Object> map = new HashMap <String, Object> ();
 
 		// Add to mapping
-		map.put( "Level", request.getTextNormalize() );
+		map.put ("Level", request.getTextNormalize ());
 
 		// Send to dao
-		getDao().executeQuery( "PurgeEventByLevel", map );
+		getDao ().executeQuery ("PurgeEventByLevel", map);
 
 		return null;
 	}
@@ -207,19 +207,19 @@ public class BasicService
 	 * @param request
 	 * @return
 	 */
-	public Element purgeEventByTimestamp( final Element request )
+	public Element purgeEventByTimestamp (final Element request)
 	{
-		final Map<String, Object> map = new HashMap<String, Object>();
-		final Namespace ns = request.getNamespace();
-		final String timestampMin = request.getChildText( "timestampMin", ns );
-		final String timestampMax = request.getChildText( "timestampMax", ns );
+		final Map <String, Object> map = new HashMap <String, Object> ();
+		final Namespace ns = request.getNamespace ();
+		final String timestampMin = request.getChildText ("timestampMin", ns);
+		final String timestampMax = request.getChildText ("timestampMax", ns);
 
 		// Add to mapping
-		map.put( "TimestampMin", timestampMin != null ? timestampMin : "" ); // TODO
-		map.put( "TimestampMax", timestampMax != null ? timestampMax : "" ); // TODO
+		map.put ("TimestampMin", timestampMin != null ? timestampMin : ""); // TODO
+		map.put ("TimestampMax", timestampMax != null ? timestampMax : ""); // TODO
 
 		// Send to dao
-		getDao().executeQuery( "PurgeEventByTimestamp", map );
+		getDao ().executeQuery ("PurgeEventByTimestamp", map);
 
 		return null;
 	}
@@ -229,7 +229,7 @@ public class BasicService
 	 * 
 	 * @param dao
 	 */
-	public void setDao( final BasicDao dao )
+	public void setDao (final BasicDao dao)
 	{
 		this.dao = dao;
 	}

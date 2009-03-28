@@ -29,9 +29,11 @@ package com.ianzepp.logging.jms.service;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-public abstract class RequestFactory {
-	public static Namespace getNamespace() {
-		return Namespace.getNamespace("log", "http://ianzepp.com/logging");
+public abstract class RequestFactory
+{
+	public static Namespace getNamespace ()
+	{
+		return Namespace.getNamespace ("log", "http://ianzepp.com/logging");
 	}
 
 	/**
@@ -40,14 +42,15 @@ public abstract class RequestFactory {
 	 * 
 	 * @return
 	 */
-	public static Element newSimplex() {
-		Namespace ns = getNamespace();
+	public static Element newSimplex ()
+	{
+		Namespace ns = getNamespace ();
 
-		Element element = new Element("eventRequest", ns);
-		element.addContent(new Element("host", ns).setText("host"));
-		element.addContent(new Element("logger", ns).setText("logger"));
-		element.addContent(new Element("level", ns).setText("level"));
-		element.addContent(new Element("message", ns).setText("message"));
+		Element element = new Element ("eventRequest", ns);
+		element.addContent (new Element ("host", ns).setText ("host"));
+		element.addContent (new Element ("logger", ns).setText ("logger"));
+		element.addContent (new Element ("level", ns).setText ("level"));
+		element.addContent (new Element ("message", ns).setText ("message"));
 
 		// Done
 		return element;
@@ -59,17 +62,18 @@ public abstract class RequestFactory {
 	 * 
 	 * @return
 	 */
-	public static Element newSimplexWithOptionals() {
-		Namespace ns = getNamespace();
-		Element element = newSimplex();
+	public static Element newSimplexWithOptionals ()
+	{
+		Namespace ns = getNamespace ();
+		Element element = newSimplex ();
 
 		// Add optional top-level elements
-		element.addContent(new Element("timestamp", ns).setText("timestamp"));
-		element.addContent(new Element("thread", ns).setText("thread"));
-		element.addContent(new Element("project", ns).setText("project"));
-		element.addContent(new Element("service", ns).setText("service"));
-		element.addContent(new Element("correlationId", ns).setText("correlationId"));
-		element.addContent(new Element("messageId", ns).setText("messageId"));
+		element.addContent (new Element ("timestamp", ns).setText ("timestamp"));
+		element.addContent (new Element ("thread", ns).setText ("thread"));
+		element.addContent (new Element ("project", ns).setText ("project"));
+		element.addContent (new Element ("service", ns).setText ("service"));
+		element.addContent (new Element ("correlationId", ns).setText ("correlationId"));
+		element.addContent (new Element ("messageId", ns).setText ("messageId"));
 
 		// Done
 		return element;

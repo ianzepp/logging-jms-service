@@ -33,8 +33,7 @@ import org.jdom.Element;
  * 
  * @author izepp
  */
-public class InsertEventEndpoint
-	extends BasicEndpoint
+public class InsertEventEndpoint extends BasicEndpoint
 {
 
 	/**
@@ -44,9 +43,9 @@ public class InsertEventEndpoint
 	 * @return
 	 */
 	@Override
-	public Element handleRequest( final Element request )
+	public Element handleRequest (final Element request)
 	{
-		return getService().insertEvent( request );
+		return getService ().insertEvent (request);
 	}
 
 }

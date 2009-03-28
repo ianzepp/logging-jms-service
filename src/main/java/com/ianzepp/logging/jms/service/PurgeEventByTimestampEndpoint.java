@@ -33,8 +33,7 @@ import org.jdom.Element;
  * 
  * @author izepp
  */
-public class PurgeEventByTimestampEndpoint
-	extends BasicEndpoint
+public class PurgeEventByTimestampEndpoint extends BasicEndpoint
 {
 
 	/**
@@ -44,9 +43,9 @@ public class PurgeEventByTimestampEndpoint
 	 * @return
 	 */
 	@Override
-	public Element handleRequest( final Element request )
+	public Element handleRequest (final Element request)
 	{
-		return getService().purgeEventByTimestamp( request );
+		return getService ().purgeEventByTimestamp (request);
 	}
 
 }
